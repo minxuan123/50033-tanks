@@ -11,6 +11,7 @@ public class PatrolAction : Action
 
 	void Patrol(StateController controller)
 	{
+		controller.tankShooting.setPatrolUI();
 		controller.navMeshAgent.destination = controller.wayPointList[controller.nextWayPoint].position;
 		controller.navMeshAgent.isStopped = false;
 		

@@ -9,9 +9,11 @@ public class TankHealth : MonoBehaviour
     public Color m_FullHealthColor = Color.green;  
     public Color m_ZeroHealthColor = Color.red;    
     public GameObject m_ExplosionPrefab;
+    public Material blinking_material;
     
     private AudioSource m_ExplosionAudio;          
-    private ParticleSystem m_ExplosionParticles;   
+    private ParticleSystem m_ExplosionParticles; 
+    private AudioSource[] m_PlayerAudio;
     private float m_CurrentHealth;  
     private bool m_Dead;            
 
@@ -20,8 +22,9 @@ public class TankHealth : MonoBehaviour
     {
         m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent<ParticleSystem>();
         m_ExplosionAudio = m_ExplosionParticles.GetComponent<AudioSource>();
-
         m_ExplosionParticles.gameObject.SetActive(false);
+
+        m_PlayerAudio = GetComponents<AudioSource>();
     }
 
 
@@ -47,7 +50,18 @@ public class TankHealth : MonoBehaviour
     {
         // Adjust the value and colour of the slider.
         m_Slider.value = m_CurrentHealth;
-        m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
+        
+        // m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
+        if (m_CurrentHealth > 40f) {
+            m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth/m_StartingHealth);
+        
+        }
+        else {
+            m_FillImage.color  = m_ZeroHealthColor;
+            m_FillImage.material = blinking_material;
+            m_PlayerAudio[1].Play();
+        }
+
     }
 
 

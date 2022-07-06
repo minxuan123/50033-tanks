@@ -13,12 +13,14 @@ public class TankShooting : MonoBehaviour
     public float m_MinLaunchForce = 15f;
     public float m_MaxLaunchForce = 30f;
     public float m_MaxChargeTime = 0.75f;
+    public MeshRenderer tankRenderer;
 
     private string m_FireButton;
     private float m_CurrentLaunchForce;
     private float m_ChargeSpeed;
     private bool m_Fired;
     private float nextFireTime;
+    private Color originalColor = Color.clear;
 
     private void OnEnable()
     {
@@ -78,6 +80,32 @@ public class TankShooting : MonoBehaviour
         m_ShootingAudio.Play();
 
         m_CurrentLaunchForce = m_MinLaunchForce;
+    }
+
+    public void setChaseUI() {
+        Material[] materials = tankRenderer.materials;
+        originalColor = materials[0].color;
+        for (int i=0; i < materials.Length; i++) {
+            materials[i].color = Color.magenta;
+        }
+        tankRenderer.materials = materials;
+    }
+
+    public void setPatrolUI() {
+        Material[] materials = tankRenderer.materials;
+        for (int i=0; i < materials.Length; i++) {
+            if (originalColor != Color.clear) materials[i].color = originalColor;
+        }
+        tankRenderer.materials = materials;
+    }
+
+    public void setShootUI() {
+        Material[] materials = tankRenderer.materials;
+        originalColor = materials[0].color;
+        for (int i=0; i < materials.Length; i++) {
+            materials[i].color = Color.black;
+        }
+        tankRenderer.materials = materials;
     }
     
 }

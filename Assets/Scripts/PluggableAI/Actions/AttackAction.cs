@@ -17,6 +17,8 @@ public class AttackAction : Action
 		Vector3 direction = controller.eyes.forward;
 		float attackRange = controller.enemyStats.attackRange;
 
+		controller.tankShooting.setShootUI();
+
 		Debug.DrawRay(position, direction.normalized * attackRange, Color.red);
 
         if (Physics.SphereCast(position, radius, direction, out hit, attackRange) && hit.collider.CompareTag("Player"))
@@ -24,6 +26,7 @@ public class AttackAction : Action
 			if (controller.CheckIfCountDownElapsed(controller.enemyStats.attackRate))
 			{
 				controller.tankShooting.Fire(controller.enemyStats.attackForce, controller.enemyStats.attackRate);
+				
 			}
 		}
 	}
